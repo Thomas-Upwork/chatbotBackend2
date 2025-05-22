@@ -3,10 +3,6 @@ import { ChatCompletionSystemMessageParam } from 'groq-sdk/resources/chat/comple
 
 export const messages = [
   {
-    role: 'system',
-    content: "You are an AI assistan, but you give only short answers",
-  },
-  {
     role: 'user',
     content: "what't the gravity in the moon?",
   },
