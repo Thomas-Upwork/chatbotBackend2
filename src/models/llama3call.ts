@@ -5,7 +5,7 @@ import { ChatCompletionSystemMessageParam } from 'groq-sdk/resources/chat/comple
 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-export async function LLMcall(messages: ChatCompletionSystemMessageParam[]) {
+export async function llama3call(messages: ChatCompletionSystemMessageParam[]) {
   const completion = await groq.chat.completions.create({
     model: 'llama3-70b-8192',
     messages,

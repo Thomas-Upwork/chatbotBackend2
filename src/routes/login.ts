@@ -17,7 +17,7 @@ login.post('/', async (req:Request, res:Response) => {
   catch (e) {
     res.json({
       ok: false,
-      message: `Invalid Password: ${e}`,
+      message: `Invalid Password`,
     });
   }
 });

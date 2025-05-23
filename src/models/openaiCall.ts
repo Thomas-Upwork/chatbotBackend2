@@ -5,7 +5,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY // This is the default and can be omitted
 });
 
-export async function LLMcall(messages:OpenAI.Chat.Completions.ChatCompletionMessageParam[]) {
+export async function openaiCall(messages:OpenAI.Chat.Completions.ChatCompletionMessageParam[]) {
   const completion = await openai.chat.completions.create({
     messages,
     model: "gpt-4.1",
