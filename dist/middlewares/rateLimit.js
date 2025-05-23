@@ -8,3 +8,11 @@ export const limiter = rateLimit({
     message: 'Too many requests, please try again later',
     // store: ... , // Redis, Memcached, etc. See below.
 });
+export const strictLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    limit: 20,
+    standardHeaders: 'draft-8', // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+    message: 'Too many requests, please try again later',
+    // store: ... , // Redis, Memcached, etc. See below.
+});
