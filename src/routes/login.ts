@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
-import { validatePassword } from '../middlewares/validatePassword';
-import { generateAndSerializeToken } from '../middlewares/cookies';
+import { validatePassword } from '../middlewares/validatePassword.js';
+import { generateAndSerializeToken } from '../middlewares/cookies.js';
 
 const login = express.Router();
 

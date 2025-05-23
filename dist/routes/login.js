@@ -8,8 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import express from 'express';
-import { validatePassword } from '../middlewares/validatePassword';
-import { generateAndSerializeToken } from '../middlewares/cookies';
+import { validatePassword } from '../middlewares/validatePassword.js';
+import { generateAndSerializeToken } from '../middlewares/cookies.js';
 const login = express.Router();
 login.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { password } = req.body;

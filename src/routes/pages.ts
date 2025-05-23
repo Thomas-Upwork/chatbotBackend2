@@ -1,8 +1,7 @@
 import path from 'path';
 import mime from 'mime-types';
 import express, { Request, Response } from 'express';
-import { limiter } from '../middlewares/rateLimit';
-import { preValidateToken, validateToken } from '../middlewares/cookies';
+import { preValidateToken, validateToken } from '../middlewares/cookies.js';
 
 const __dirname=process.cwd();
 
@@ -20,8 +19,8 @@ pages.use(express.static(path.join(__dirname, 'public'), {
 pages.get("/",
   //preValidateToken,
   (req:Request,res:Response)=>{
-    res.redirect('/çhat')
-  // res.sendFile(__dirname+"/public/index.html");
+    // res.redirect('/chat')
+  res.sendFile(__dirname+"/public/index.html");
 });
 
 pages.get("/chat",validateToken,(req:Request,res:Response)=>{
