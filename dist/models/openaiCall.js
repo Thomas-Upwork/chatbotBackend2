@@ -22,7 +22,7 @@ export function openaiCall(messages) {
         });
         // console.log(completion.choices[0]);
         const LLMresponse = completion.choices[0].message;
-        console.log(LLMresponse);
+        // console.log(LLMresponse);
         return LLMresponse;
     });
 }
