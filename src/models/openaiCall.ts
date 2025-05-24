@@ -8,7 +8,8 @@ const openai = new OpenAI({
 export async function openaiCall(messages:OpenAI.Chat.Completions.ChatCompletionMessageParam[]) {
   const completion = await openai.chat.completions.create({
     messages,
-    model: "gpt-4.1",
+    // model: "gpt-4.1",
+    model: "o4-mini",
     store: true,
   });
 

@@ -16,7 +16,8 @@ export function openaiCall(messages) {
     return __awaiter(this, void 0, void 0, function* () {
         const completion = yield openai.chat.completions.create({
             messages,
-            model: "gpt-4.1",
+            // model: "gpt-4.1",
+            model: "o4-mini",
             store: true,
         });
         // console.log(completion.choices[0]);
