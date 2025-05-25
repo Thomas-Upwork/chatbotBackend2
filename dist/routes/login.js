@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import express from 'express';
 import { validatePassword } from '../middlewares/validatePassword.js';
-import { generateAndSerializeToken } from '../middlewares/cookies.js';
+import { emptyCookie, generateAndSerializeToken } from '../middlewares/cookies.js';
 const login = express.Router();
 login.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { password } = req.body;
@@ -27,5 +27,12 @@ login.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             message: `Invalid Password`,
         });
     }
+}));
+login.get('/logout', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const serialized = yield emptyCookie();
+    // Set the cleared cookie in the response header
+    res.setHeader('Set-Cookie', serialized);
+    // Send a response
+    res.redirect('/login');
 }));
 export { login };

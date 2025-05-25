@@ -12,6 +12,16 @@ import { serialize } from 'cookie';
 import 'dotenv/config';
 const SECRET = process.env.SECRET || "";
 const IsProduction = process.env.nodeENV || "";
+export const emptyCookie = () => __awaiter(void 0, void 0, void 0, function* () {
+    const serialized = serialize("MyTokenName", "", {
+        path: "/",
+        maxAge: 0, //this are secconds, don't trust anyone telling the opposite
+        sameSite: 'strict', //prevents cross site reques forgery
+        secure: IsProduction == 'development' ? false : true, //https only?
+        httpOnly: true
+    });
+    return serialized;
+});
 export const generateAndSerializeToken = () => __awaiter(void 0, void 0, void 0, function* () {
     const payload = {
         ValidFrontEnd: "ValidFrontEnd",
@@ -30,56 +40,28 @@ export const generateAndSerializeToken = () => __awaiter(void 0, void 0, void 0,
 });
 export const validateToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const denyAccess = () => {
-        if (req.method == 'GET') {
-            res.redirect('/');
+        if (req.method === 'GET') {
+            res.redirect('/login'); // Added return
+            return;
         }
-        else {
-            res.json({
-                ok: false,
-                message: "forbidden"
-            });
-        }
+        res.status(403).json({
+            ok: false,
+            message: "forbidden"
+        });
         return;
     };
     const token = req.cookies.MyTokenName;
     if (!token) {
-        denyAccess();
+        return denyAccess(); // Added return
     }
     try {
         const payload = Jwt.verify(token, SECRET);
-        if ((payload === null || payload === void 0 ? void 0 : payload.ValidFrontEnd) !== 'ValidFrontEnd') {
-            denyAccess();
+        if (!payload || (payload === null || payload === void 0 ? void 0 : payload.ValidFrontEnd) !== 'ValidFrontEnd') {
+            return denyAccess(); // Added return
         }
-        if (payload == undefined) {
-            denyAccess();
-        }
-        if ((payload === null || payload === void 0 ? void 0 : payload.ValidFrontEnd) !== 'ValidFrontEnd') {
-            denyAccess();
-        }
+        next(); // Only call next if validation succeeds
     }
     catch (error) {
-        denyAccess();
+        return denyAccess(); // Added return
     }
-    next();
-});
-export const preValidateToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    const token = (_a = req.cookies) === null || _a === void 0 ? void 0 : _a.MyTokenName; // Optional chaining in case `req.cookies` is undefined
-    if (!token) {
-        next(); // No token → proceed to login
-        return;
-    }
-    try {
-        const payload = Jwt.verify(token, SECRET);
-        if ((payload === null || payload === void 0 ? void 0 : payload.ValidFrontEnd) === 'ValidFrontEnd') {
-            res.redirect('/chat'); // Valid token → redirect and STOP
-            return;
-        }
-    }
-    catch (error) {
-        next();
-        return;
-    }
-    // Fallback (should not reach here if checks are correct)
-    next();
 });
