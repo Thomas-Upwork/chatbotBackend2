@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { validatePassword } from '../middlewares/validatePassword.js';
-import { generateAndSerializeToken } from '../middlewares/cookies.js';
+import { emptyCookie, generateAndSerializeToken } from '../middlewares/cookies.js';
+import { serialize } from 'cookie';
 
 const login = express.Router();
 
@@ -20,6 +21,15 @@ login.post('/', async (req:Request, res:Response) => {
       message: `Invalid Password`,
     });
   }
+});
+
+login.get('/logout',async (req, res) => {
+  const serialized = await emptyCookie();
+  // Set the cleared cookie in the response header
+  res.setHeader('Set-Cookie', serialized);
+
+  // Send a response
+  res.redirect('/login');
 });
 
 export { login };

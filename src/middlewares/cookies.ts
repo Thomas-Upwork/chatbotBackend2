@@ -10,7 +10,19 @@ interface IPayload {
   ValidFrontEnd:string
 }
 
-export const generateAndSerializeToken=async()=>{
+export const emptyCookie: () => Promise<string>=async()=>{
+  const serialized=serialize("MyTokenName","",{
+    path:"/",
+    maxAge: 0, //this are secconds, don't trust anyone telling the opposite
+    sameSite:'strict', //prevents cross site reques forgery
+    secure: IsProduction=='development'?false:true,  //https only?
+    httpOnly: true   
+  })
+
+  return serialized;
+}
+
+export const generateAndSerializeToken: () => Promise<string>=async()=>{
   const payload = {
     ValidFrontEnd:"ValidFrontEnd",
   };
@@ -29,65 +41,33 @@ export const generateAndSerializeToken=async()=>{
   return serialized;
 }
 
-export const validateToken=async(req:Request, res:Response,next:NextFunction)=>{
-
-  const denyAccess=()=>{
-    if(req.method=='GET'){
-      res.redirect('/')
+export const validateToken = async (req: Request, res: Response, next: NextFunction) => {
+  const denyAccess = () => {
+    if (req.method === 'GET') {
+      res.redirect('/login');  // Added return
+      return 
     }
-    else{
-      res.json({
-        ok:false,
-        message:"forbidden"
-      })
-    }
-    return
-  }
+    res.status(403).json({    // Added return
+      ok: false,
+      message: "forbidden"
+    });
+    return 
+  };
 
-  const token =req.cookies.MyTokenName
-  if(!token){
-    denyAccess()
+  const token = req.cookies.MyTokenName;
+  if (!token) {
+    return denyAccess();  // Added return
   }
   
   try {
     const payload = Jwt.verify(token, SECRET) as IPayload;
-    if (payload?.ValidFrontEnd !== 'ValidFrontEnd') {
-      denyAccess();
-
+    
+    if (!payload || payload?.ValidFrontEnd !== 'ValidFrontEnd') {
+      return denyAccess();  // Added return
     }
-    if (payload == undefined) {
-      denyAccess();
-
-    }
-    if (payload?.ValidFrontEnd !== 'ValidFrontEnd') {
-      denyAccess();
-
-    }
+    
+    next();  // Only call next if validation succeeds
   } catch (error) {
-    denyAccess();
+    return denyAccess();  // Added return
   }
-
-  next()
 }
-
-export const preValidateToken = async (req: Request, res: Response, next: NextFunction) => {
-  const token = req.cookies?.MyTokenName; // Optional chaining in case `req.cookies` is undefined
-  if (!token) {
-    next(); // No token → proceed to login
-    return 
-  }
-
-  try {
-    const payload = Jwt.verify(token, SECRET) as IPayload;
-    if (payload?.ValidFrontEnd === 'ValidFrontEnd') {
-      res.redirect('/chat'); // Valid token → redirect and STOP
-      return
-    }
-  } catch (error) {
-    next();
-    return 
-  }
-
-  // Fallback (should not reach here if checks are correct)
-  next();
-};

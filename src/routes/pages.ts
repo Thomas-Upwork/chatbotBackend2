@@ -1,11 +1,15 @@
 import path from 'path';
 import mime from 'mime-types';
 import express, { Request, Response } from 'express';
-import { preValidateToken, validateToken } from '../middlewares/cookies.js';
+import { validateToken } from '../middlewares/cookies.js';
 
 const __dirname=process.cwd();
 
 export const pages=express.Router();
+
+pages.get("/",(req:Request,res:Response)=>{
+  res.redirect("/chat")
+});
 
 pages.use(express.static(path.join(__dirname, 'public'), {
   setHeaders: (res, path) => {
@@ -16,13 +20,20 @@ pages.use(express.static(path.join(__dirname, 'public'), {
   },
 }));
 
-pages.get("/",
-  //preValidateToken,
-  (req:Request,res:Response)=>{
-    // res.redirect('/chat')
-  res.sendFile(__dirname+"/public/index.html");
+pages.get("/login", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+pages.get("/chat", validateToken, (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-pages.get("/chat",validateToken,(req:Request,res:Response)=>{
-  res.sendFile(__dirname+"/public/index.html");
-});
+//These won't work
+// pages.get("/*", (req: Request, res: Response) => {
+//   res.sendFile(path.join(__dirname, "public", "index.html"));
+// });
+
+// pages.get("*", (req:Request,res:Response) => {
+//   res.json({
+//     message: "page not found"
+//   })
+// });
