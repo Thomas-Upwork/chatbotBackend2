@@ -81,6 +81,7 @@ Output:
 GET `/api/login`
 validates the password, creates a jsonwebtoken and sets a cookie in the browser.
 This route has a stricter rate limit 20 requests in 15 minutes.
+The cookies has a live of 48 hours. After the password would be required to create a new one.
 
 GET `/api/login/logout`
 resents the password set from login
