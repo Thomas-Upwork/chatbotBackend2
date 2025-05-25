@@ -13,21 +13,20 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@types/cookie-parser": "^1.4.8",
-    "@types/express": "^5.0.2",
-    "@types/jsonwebtoken": "^9.0.9",
-    "@types/mime-types": "^2.1.4",
-    "express": "^5.1.0",
-    "typescript": "^5.8.3"
+    "@types/cookie-parser": "~1.4.8",
+    "@types/express": "~5.0.2",
+    "@types/jsonwebtoken": "~9.0.9",
+    "@types/mime-types": "~2.1.4",
+    "express": "~5.1.0",
+    "typescript": "~5.8.3"
   },
   "dependencies": {
-    "cookie": "^1.0.2",
-    "cookie-parser": "^1.4.7",
-    "dotenv": "^16.5.0",
-    "express-rate-limit": "^7.5.0",
-    "groq-sdk": "^0.22.0",
-    "jsonwebtoken": "^9.0.2",
-    "mime-types": "^3.0.1",
+    "cookie": "~1.0.2",
+    "cookie-parser": "~1.4.7",
+    "dotenv": "~16.5.0",
+    "express-rate-limit": "~7.5.0",
+    "jsonwebtoken": "~9.0.2",
+    "mime-types": "~3.0.1",
     "openai": "^4.103.0"
   }
 }
