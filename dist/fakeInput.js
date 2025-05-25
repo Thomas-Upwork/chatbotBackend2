@@ -1,3 +1,4 @@
+// import { ChatCompletionSystemMessageParam } from 'groq-sdk/resources/chat/completions';
 // ChatCompletionRole = 'system' | 'user' | 'assistant' | 'tool' | 'function';
 export const messages = [
     {

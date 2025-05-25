@@ -14,6 +14,10 @@ app.use(cookieParser());
 app.use('/api/login', strictLimiter, login);
 app.use('/api/chat', limiter, chat);
 app.use('/', limiter, pages);
+//This endpoint is to test the abortion from the client
+// app.post('/api/abort',()=>{
+//   console.log('abort endpoint hit')
+// })
 app.listen(PORT, (err) => {
     if (err) {
         console.log(err);
