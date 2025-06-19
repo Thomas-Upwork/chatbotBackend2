@@ -2,12 +2,12 @@ import express, { Request, Response } from "express";
 import { systemPrompt } from "../systemPrompt.js";
 import { openaiCall } from "../models/openaiCall.js";
 import { ChatCompletionUserMessageParam } from "openai/resources/index.js";
-
+import { validateToken } from "../middlewares/cookies.js";
+import { Logger } from "../helpers/Logger.js";
 
 export const chat = express.Router();
 
-
-chat.post("/openai", async (req: Request, res: Response) => {
+chat.post("/openai",validateToken, async (req: Request, res: Response) => {
   try {
     const { messages } = req.body;
    
@@ -64,7 +64,7 @@ chat.post("/openai", async (req: Request, res: Response) => {
     return
    
   } catch (e) {
-    console.error("Error in /openai endpoint:", e);
+    Logger.error("Error in /openai endpoint:", e);
     res.status(500).json({
       ok: false,
       content: "Sorry, I don't know how to answer that",

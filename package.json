@@ -13,20 +13,27 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "~1.4.8",
     "@types/express": "~5.0.2",
     "@types/jsonwebtoken": "~9.0.9",
     "@types/mime-types": "~2.1.4",
+    "@types/node-cron": "^3.0.11",
     "express": "~5.1.0",
+    "node-cron": "^4.1.0",
     "typescript": "~5.8.3"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cookie": "~1.0.2",
     "cookie-parser": "~1.4.7",
     "dotenv": "~16.5.0",
     "express-rate-limit": "~7.5.0",
     "jsonwebtoken": "~9.0.2",
     "mime-types": "~3.0.1",
-    "openai": "^4.103.0"
+    "mongoose": "^8.15.2",
+    "nanoid": "^5.1.5",
+    "openai": "^4.103.0",
+    "stripe": "^18.2.1"
   }
 }

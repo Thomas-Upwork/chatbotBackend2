@@ -20,20 +20,18 @@ pages.use(express.static(path.join(__dirname, 'public'), {
   },
 }));
 
-pages.get("/login", (req: Request, res: Response) => {
+pages.get("/user", validateToken, (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
 pages.get("/chat", validateToken, (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-//These won't work
-// pages.get("/*", (req: Request, res: Response) => {
-//   res.sendFile(path.join(__dirname, "public", "index.html"));
-// });
+pages.get("/login", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
-// pages.get("*", (req:Request,res:Response) => {
-//   res.json({
-//     message: "page not found"
-//   })
-// });
+pages.get("/*foo", validateToken, (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
